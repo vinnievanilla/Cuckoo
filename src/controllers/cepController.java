@@ -84,9 +84,11 @@ public class cepController implements Initializable{
 			public void handle(ActionEvent event) {
 				translate.setText(base.getWordA(getRandomID()));
 				if (translate.getText().equals(polishWord.getText().toLowerCase().replaceAll("\\s",""))) {
-					resoult.setText("RIGHT !");
+					resoult.setText("CORRECT !");
+					resoult.setStyle("-fx-background-color: #008000; -fx-text-fill: #008000;-fx-font-size: 30;");
 				} else {
-					resoult.setText("FALSE !");
+					resoult.setText("Oops, it's not right :(");
+					resoult.setStyle("-fx-background-color: #FF0000; -fx-text-fill: #FF0000;-fx-font-size: 16;");
 				}
 			}
 		});
