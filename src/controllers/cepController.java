@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,6 +16,8 @@ import javafx.scene.layout.BorderPane;
 import model.SQLite;
 
 public class cepController implements Initializable{
+	
+
 	
     @FXML
     private BorderPane cepPane;
@@ -31,13 +32,13 @@ public class cepController implements Initializable{
     private Button clearButton;
 
     @FXML
-    private TextArea polishWord;
+    private TextArea translated;
 
     @FXML
-    private TextArea englishWord;
+    private TextArea toTranslate;
 
     @FXML
-    private TextArea translate;
+    private TextArea correct;
 
     @FXML
     private TextArea resoult;
@@ -75,33 +76,33 @@ public class cepController implements Initializable{
 			@Override
 			public void handle(ActionEvent arg0) {	
 				    setRandomID(rand.nextInt(base.baseSize()));
-					englishWord.setText(base.getWordB(getRandomID()));				
+					toTranslate.setText(base.getWordB(getRandomID()));
+					translated.clear();
+//					correct.clear();
+					resoult.clear();
 			}
 		});
 		
 		checkButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				translate.setText(base.getWordA(getRandomID()));
-				if (translate.getText().equals(polishWord.getText().toLowerCase().replaceAll("\\s",""))) {
-					resoult.setText("CORRECT !");
-					resoult.setStyle("-fx-background-color: #008000; -fx-text-fill: #008000;-fx-font-size: 30;");
-				} else {
-					resoult.setText("Oops, it's not right :(");
-					resoult.setStyle("-fx-background-color: #FF0000; -fx-text-fill: #FF0000;-fx-font-size: 16;");
+				
+				try {
+//					correct.setText(base.getWordB(getRandomID()));
+					if (base.getWordA(getRandomID()).equals(translated.getText().toLowerCase().replaceAll("\\s",""))) {
+						resoult.setText("Correct !");
+						resoult.setStyle("-fx-background-color: #008000; -fx-text-fill: #008000;-fx-font-size: 16;");
+					} else {
+						resoult.setText("Not this time. Correct answer is: " + base.getWordA(getRandomID()));
+						resoult.setStyle("-fx-background-color: #FF0000; -fx-text-fill: #FF0000; -fx-text-alignment: center; -fx-text-origin: baseline; -fx-font-size: 16; ");
 				}
-			}
-		});
-		
-		clearButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				englishWord.clear();
-				polishWord.clear();
-				translate.clear();
-				resoult.clear();
-				setRandomID(0);
-			}
+				}
+				catch (Exception e) {
+//					System.out.println(e);
+				}
+				}
+			
 		});		
 	}	
+
 }

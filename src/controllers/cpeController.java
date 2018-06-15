@@ -32,13 +32,13 @@ public class cpeController implements Initializable{
     private Button clearButton;
 
     @FXML
-    private TextArea polishWord;
+    private TextArea translated;
 
     @FXML
-    private TextArea englishWord;
+    private TextArea toTranslate;
 
     @FXML
-    private TextArea translate;
+    private TextArea correct;
 
     @FXML
     private TextArea resoult;
@@ -76,34 +76,32 @@ public class cpeController implements Initializable{
 			@Override
 			public void handle(ActionEvent arg0) {	
 				    setRandomID(rand.nextInt(base.baseSize()));
-					englishWord.setText(base.getWordA(getRandomID()));				
+					toTranslate.setText(base.getWordA(getRandomID()));
+					translated.clear();
+//					correct.clear();
+					resoult.clear();
 			}
 		});
 		
 		checkButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				translate.setText(base.getWordB(getRandomID()));
-				if (translate.getText().equals(polishWord.getText().toLowerCase().replaceAll("\\s",""))) {
-					resoult.setText("CORRECT !");
-					resoult.setStyle("-fx-background-color: #008000; -fx-text-fill: #008000;-fx-font-size: 30;");
-				} else {
-					resoult.setText("Oops, it's not right :(");
-					resoult.setStyle("-fx-background-color: #FF0000; -fx-text-fill: #FF0000;-fx-font-size: 16;");
+				
+				try {
+//					correct.setText(base.getWordB(getRandomID()));
+					if (base.getWordB(getRandomID()).equals(translated.getText().toLowerCase().replaceAll("\\s",""))) {
+						resoult.setText("Correct !");
+						resoult.setStyle("-fx-background-color: #008000; -fx-text-fill: #008000;-fx-font-size: 16;");
+					} else {
+						resoult.setText("Not this time. Correct answer is: " + base.getWordB(getRandomID()));
+						resoult.setStyle("-fx-background-color: #FF0000; -fx-text-fill: #FF0000; -fx-text-alignment: center; -fx-text-origin: baseline; -fx-font-size: 16; ");
 				}
-			}
-		});
-		
-		clearButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				englishWord.clear();
-				polishWord.clear();
-				translate.clear();
-				resoult.clear();
-				//resoult.getStyleClass().clear();
-				setRandomID(0);
-			}
+				}
+				catch (Exception e) {
+//					System.out.println(e);
+				}
+				}
+			
 		});		
 	}	
 
