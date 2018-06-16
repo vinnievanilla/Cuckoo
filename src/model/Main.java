@@ -26,11 +26,11 @@ public class Main extends Application {
 	public static void main(String[] args) {
 
 		//Uruchomienie aplikacji
-//		launch(args);
+		launch(args);
 		
 		//Połączenie z bazą - do testowania
-		SQLite get = new SQLite(); 
-		get.selectAlltest("jdbc:sqlite:src/resources/db/user_table.db");
+//		SQLite get = new SQLite(); 
+
 		
 //		System.out.println(get.baseSize());
 		//get.connect("jdbc:sqlite:src/resources/db/main.db");

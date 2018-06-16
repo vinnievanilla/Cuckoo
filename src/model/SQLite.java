@@ -5,9 +5,53 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class SQLite {
 
+	
+	private int basketAmount = 5;
+
+	// ****************************************************
+	// set number of baskets
+	// ****************************************************
+	public void setBasketAmount(int amount) {
+
+		if (amount < 2)
+			amount = 2;
+		if (amount > 5)
+			amount = 5;
+		basketAmount = amount;
+	}
+	
+	public int getRandomID(int basket) {
+		Random rand = new Random();
+
+		int randomId = rand.nextInt(baseSize(basket));
+		ArrayList<Integer> BasketIdList = new ArrayList<Integer>();
+
+		String sql = "SELECT ID FROM main_table WHERE BASKET =" + basket;
+
+		try (Connection conn = this.connect();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql)) {
+
+			while (rs.next()) {
+				BasketIdList.add(rs.getInt("ID"));
+			}
+			randomId = BasketIdList.get(rand.nextInt(BasketIdList.size()));
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+
+		return randomId;
+	}
+
+
+		
+	
 // 	****************************************************
 //	    connect to database with fixed url address
 // 	****************************************************
@@ -193,30 +237,35 @@ public int getBasket(int id) {
 //	function assigning basket (container) number
 //	for record with given id
 //	****************************************************
-public void setBasket(int id, int basket) {
+	public void setBasket(int id, boolean isWordCorrect) {
 
-	int recordId = id;
+		int recordId = id;
 
-	int newBasket = basket;
-	
-	if (basket < 1 || basket > 5)
-		newBasket = 1; // assign basket 1 in case of invalid basket number
+		int newBasket = getBasket(id);
 
-	String sql = "UPDATE main_table SET BASKET =" + newBasket + " WHERE ID =" + recordId + " ";
+		if (isWordCorrect)
+			newBasket++;
+		else if (newBasket != 1)
+			newBasket--;
 
-	try (Connection conn = this.connect();
+		if (newBasket > basketAmount + 1)
+			newBasket = basketAmount + 1; // fikcyjny koszyk, poza zakresem
 
-			Statement stmt = conn.createStatement();
+		String sql = "UPDATE main_table SET BASKET =" + newBasket + " WHERE ID =" + recordId + " ";
 
-			ResultSet rs = stmt.executeQuery(sql)) {
+		try (Connection conn = this.connect();
 
-	} catch (SQLException e) {
+				Statement stmt = conn.createStatement();
 
-		System.out.println(e.getMessage());
+				ResultSet rs = stmt.executeQuery(sql)) {
+
+		} catch (SQLException e) {
+
+			System.out.println(e.getMessage());
+
+		}
 
 	}
-
-}
 
 //	****************************************************
 // 	authorization function
@@ -256,29 +305,78 @@ public int baseSize(){
 	return dbSize;
 }
 
-public void selectAlltest(String test){
-    String sql = "SELECT userID, user, password, basketOne FROM user_table";
+	public int baseSize(int basket) {
+
+		int dbSize = 0;
+
+		String sql = "SELECT count(id) FROM main_table WHERE BASKET =" + basket;
+
+		try (Connection conn = this.connect();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql)) {
+			dbSize = rs.getInt("count(id)");
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return dbSize;
+	}
+
+	public int changeBasket(int currentBasket) {
+		if (currentBasket > basketAmount)
+			currentBasket = 1;
+		else
+			currentBasket++;
+
+		return currentBasket;
+	}
+
+public void getBasketStatus(String bName, String usr){
+	
+	String basketName = bName;
+	String user = usr;
+	
+    String sql = "SELECT " + basketName + " FROM user_table WHERE USER '= " +user+ "' ";
     
-    try (Connection conn = this.connect(test);
-         Statement stmt  = conn.createStatement(); // przelozenie string na sql
-         ResultSet rs    = stmt.executeQuery(sql)){ // konwersja sql
-        
-    	 System.out.println("before while");
-    	
+    try (Connection conn = this.connect();
+         Statement stmt  = conn.createStatement(); 
+         ResultSet rs    = stmt.executeQuery(sql)){
+     	
         // loop through the result set
         while (rs.next()) { 
-            System.out.println(rs.getInt("userID") +  "\t" + 
-                               rs.getString("user") + "\t" +
-                               rs.getString("password") + "\t" +
-                               //rs.getString("USER") + "\t" +
-                               rs.getInt("basketOne"));
-            System.out.println("while");
-        }
+            System.out.println(rs.getInt(basketName));
+                   }
     } catch (SQLException e) {
         System.out.println(e.getMessage());        
     }
 
 }
+
+public void setTotalCorrect(String usr, int total) {
+
+	String user = usr;
+	int totalCorrect = total;
+	
+	
+		String sql = "UPDATE user_table SET TOTALCORRECT =" + totalCorrect + " WHERE USERID ='" + user + "' ";
+
+	try (Connection conn = this.connect();
+
+			Statement stmt = conn.createStatement();
+
+			ResultSet rs = stmt.executeQuery(sql)) {
+
+	} catch (SQLException e) {
+
+		System.out.println(e.getMessage());
+
+	}
+
+}
+
+
+
+
 
 
 }

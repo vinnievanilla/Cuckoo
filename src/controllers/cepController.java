@@ -56,34 +56,31 @@ public class cepController implements Initializable{
     }
  
     int randID;
+    int currentBasket;
+    String currentUser;
     
-    public int getRandomID() {
-    	return randID;
-    }
-    
-    public void setRandomID(int randomID) {
-    	randID = randomID;
-    }
-    
+        
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		SQLite base = new SQLite();
-		Random rand = new Random();
-		setRandomID(rand.nextInt(base.baseSize()));
-		toTranslate.setText(base.getWordB(getRandomID()));
+		randID = 0;
+		currentBasket = 2;
 				
+					
 		startButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
-			public void handle(ActionEvent arg0) {	
-				    setRandomID(rand.nextInt(base.baseSize()));
-					toTranslate.setText(base.getWordB(getRandomID()));
-					translated.clear();
-//					correct.clear();
-					resoult.clear();
+			public void handle(ActionEvent arg0) {
+
+			while (base.baseSize(currentBasket) == 0) {
+				currentBasket = base.changeBasket(currentBasket);
 			}
-		});
+
+			randID = base.getRandomID(currentBasket);
+			toTranslate.setText(base.getWordB(randID));	
+			
+			}});
 		
 		checkButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -91,11 +88,11 @@ public class cepController implements Initializable{
 				
 				try {
 //					correct.setText(base.getWordB(getRandomID()));
-					if (base.getWordA(getRandomID()).equals(translated.getText().toLowerCase().replaceAll("\\s",""))) {
+					if (base.getWordA(randID).equals(translated.getText().toLowerCase().replaceAll("\\s",""))) {
 						resoult.setText("Correct !");
 						resoult.setStyle("-fx-background-color: #008000; -fx-text-fill: #008000;-fx-font-size: 16;");
 					} else {
-						resoult.setText("Not this time. Correct answer is: " + base.getWordA(getRandomID()));
+						resoult.setText("Not this time. Correct answer is: " + base.getWordA(randID));
 						resoult.setStyle("-fx-background-color: #FF0000; -fx-text-fill: #FF0000; -fx-text-alignment: center; -fx-text-origin: baseline; -fx-font-size: 16; ");
 				}
 				}
