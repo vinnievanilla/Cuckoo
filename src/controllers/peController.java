@@ -56,6 +56,7 @@ public class peController implements Initializable {
 		setRandomID(rand.nextInt(base.baseSize())+1);
 		flashcard.setText(base.getWordA(getRandomID()));
 		
+	
 		
 		turnButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -63,6 +64,7 @@ public class peController implements Initializable {
 				flashcard.clear();
 				flashcard.setText(base.getWordB(getRandomID()));
 				setRandomID(0);
+				System.out.println(flashcard.getText());
 			}
 		});
 		

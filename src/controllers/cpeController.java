@@ -71,7 +71,10 @@ public class cpeController implements Initializable{
 		
 		SQLite base = new SQLite();
 		Random rand = new Random();
-				
+		setRandomID(rand.nextInt(base.baseSize())+1);
+		toTranslate.setText("asdasdasda");
+		System.out.println(toTranslate.getText());
+		
 		startButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {	
