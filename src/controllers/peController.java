@@ -53,7 +53,7 @@ public class peController implements Initializable {
 		
 		SQLite base = new SQLite();
 		Random rand = new Random();
-		setRandomID(rand.nextInt(base.baseSize())+1);
+		setRandomID(rand.nextInt(base.baseSize()));
 		flashcard.setText(base.getWordA(getRandomID()));
 		
 	
@@ -63,7 +63,6 @@ public class peController implements Initializable {
 			public void handle(ActionEvent arg0) {	
 				flashcard.clear();
 				flashcard.setText(base.getWordB(getRandomID()));
-				setRandomID(0);
 				System.out.println(flashcard.getText());
 			}
 		});
@@ -72,7 +71,7 @@ public class peController implements Initializable {
 			@Override
 			public void handle(ActionEvent arg0) {	
 				flashcard.clear();
-				setRandomID(rand.nextInt(base.baseSize())+1);
+				setRandomID(rand.nextInt(base.baseSize()));
 				flashcard.setText(base.getWordA(getRandomID()));    
 			}
 		});

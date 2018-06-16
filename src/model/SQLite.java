@@ -8,67 +8,17 @@ import java.sql.Statement;
 
 public class SQLite {
 
-	   
-    public static void connectTest() {
-        Connection conn = null;
-        try {
-            // db parameters
-            String url = "jdbc:sqlite:db/main.db";
-            // create a connection to the database
-            conn = DriverManager.getConnection(url);
-            
-            System.out.println("Connection to SQLite has been established.");
-            
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
-        }
-    }
-    
-    public static void connectTest(String dbName) {
-        Connection conn = null;
-        try {
-            // db parameters
-            String url = dbName;
-            // create a connection to the database
-            conn = DriverManager.getConnection(url);
-            
-            System.out.println("Connection to SQLite has been established.");
-            
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
-        }
-    }
-  
+// 	****************************************************
+//	    connect to database with fixed url address
+// 	****************************************************
     public Connection connect() {
-        // SQLite connection string
-        String url = "jdbc:sqlite:src/resources/db/main.db";
-        Connection conn = null;
-        try {
-            conn = DriverManager.getConnection(url);
-            System.out.println("Conected to DB");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            System.out.println("Not conected to DB");
-        }
-        return conn;
+    	return connect("jdbc:sqlite:src/resources/db/main.db");
     }
-    
+
+
+// 	****************************************************
+// 	    connect to database with given url address
+// 	****************************************************
     public Connection connect(String dbName) {
         // SQLite connection string
         String url = dbName;
@@ -83,26 +33,24 @@ public class SQLite {
         return conn;
     }
     
-    
-    
-    
-    
-    
-    // funkcje, których będziemy używali
-    
+
+// 	****************************************************
+//    debug only tool
+//    print all records in database
+// 	****************************************************
     public void selectAll(){
-        String sql = "SELECT ID, PL, ENG, USER, BASKET FROM main_table";
+        String sql = "SELECT ID, PL, ENG, BASKET FROM main_table";
         
         try (Connection conn = this.connect();
-             Statement stmt  = conn.createStatement();
-             ResultSet rs    = stmt.executeQuery(sql)){
+             Statement stmt  = conn.createStatement(); // przelozenie string na sql
+             ResultSet rs    = stmt.executeQuery(sql)){ // konwersja sql
             
             // loop through the result set
-            while (rs.next()) {
+            while (rs.next()) { // mapowanie wyniku, potrzebne do wyswietlenia
                 System.out.println(rs.getInt("ID") +  "\t" + 
                                    rs.getString("PL") + "\t" +
                                    rs.getString("ENG") + "\t" +
-                                   rs.getString("USER") + "\t" +
+                                   //rs.getString("USER") + "\t" +
                                    rs.getInt("BASKET"));
             }
         } catch (SQLException e) {
@@ -112,12 +60,10 @@ public class SQLite {
     }
     
 
-// ****************************************************
-
-// Funkcja zwracająca rekord z DB o podanym ID
-
-// ****************************************************
-
+// 	****************************************************
+//    debug only tool
+//    print record with given id
+// 	****************************************************
 public void showRecord(int id) {
 
 	int recordId = id;
@@ -150,12 +96,11 @@ public void showRecord(int id) {
 
 }
 
-// ****************************************************
 
-// Funkcja zwracająca wyraz A dla rekordu o danym ID
-
-// ***************************************************
-
+//	****************************************************
+//	function returning word A (currently PL word)
+//	for record with given id
+//	****************************************************
 public String getWordA(int id) {
 
 	int recordId = id;
@@ -182,12 +127,11 @@ public String getWordA(int id) {
 
 }
 
-// ****************************************************
 
-// Funkcja zwracająca wyraz B dla rekordu o danym ID
-
-// ***************************************************
-
+//****************************************************
+//function returning word B (currently ENG word)
+//for record with given id
+//****************************************************
 public String getWordB(int id) {
 
 	int recordId = id;
@@ -214,12 +158,11 @@ public String getWordB(int id) {
 
 }
 
-// ****************************************************
 
-// Funkcja zwracająca numer koszyka dla rekordu o danym ID
-
-// ***************************************************
-
+//	****************************************************
+//	function returning basket (container) number
+//	for record with given id
+//	****************************************************
 public int getBasket(int id) {
 
 	int recordId = id;
@@ -246,17 +189,18 @@ public int getBasket(int id) {
 
 }
 
-// ****************************************************
-
-// Funkcja ustawiająca numer koszyka dla rekordu o danym ID
-
-// ***************************************************
-
+//	****************************************************
+//	function assigning basket (container) number
+//	for record with given id
+//	****************************************************
 public void setBasket(int id, int basket) {
 
 	int recordId = id;
 
 	int newBasket = basket;
+	
+	if (basket < 1 || basket > 5)
+		newBasket = 1; // assign basket 1 in case of invalid basket number
 
 	String sql = "UPDATE main_table SET BASKET =" + newBasket + " WHERE ID =" + recordId + " ";
 
@@ -274,9 +218,9 @@ public void setBasket(int id, int basket) {
 
 }
 
-// ****************************************************
-// Funkcja autoryzacji
-// ***************************************************
+//	****************************************************
+// 	authorization function
+// 	***************************************************
 
 public static boolean checkUser(String login, String password) {
 	// podajemy jako parametry login i password, je�eli znadjdziemy takiego
@@ -284,10 +228,9 @@ public static boolean checkUser(String login, String password) {
 	return true;
 }
 
-// ****************************************************
-// Tworzenie konta
-// ***************************************************
-
+// 	****************************************************
+// 	Create an account
+// 	***************************************************
 public static void createAccount(String login, String password) {
 	// podaj� login i password, nale�y doda� u�ytkownika do nowej tabeli user. Jak
 	// b�dzie ok to informacje, �e konto zosta�o utworzone, jak nie to info, �e ju�
@@ -295,12 +238,9 @@ public static void createAccount(String login, String password) {
 }
 
 // ****************************************************
-// Funkcja zwracająca rozmiar bazy danych
+// Function returning db size (total number of records)
 // ***************************************************
-
 public int baseSize(){
-    	//funkcja zwraca nam ile jest s��wek w bazie, bym wiedzia� z jakiego zakresu funkcja random ma losowa�
-    	
 	int dbSize = 0;
 
 	String sql = "SELECT count(id) FROM main_table";
@@ -316,15 +256,31 @@ public int baseSize(){
 	return dbSize;
 }
 
-// public static void main(String[] args) {
-// // TODO Auto-generated method stub
-//
-// SQLite get = new SQLite();
-// System.out.println(get.baseSize());
-//
-//
-// }
-	
+public void selectAlltest(String test){
+    String sql = "SELECT userID, user, password, basketOne FROM user_table";
+    
+    try (Connection conn = this.connect(test);
+         Statement stmt  = conn.createStatement(); // przelozenie string na sql
+         ResultSet rs    = stmt.executeQuery(sql)){ // konwersja sql
+        
+    	 System.out.println("before while");
+    	
+        // loop through the result set
+        while (rs.next()) { 
+            System.out.println(rs.getInt("userID") +  "\t" + 
+                               rs.getString("user") + "\t" +
+                               rs.getString("password") + "\t" +
+                               //rs.getString("USER") + "\t" +
+                               rs.getInt("basketOne"));
+            System.out.println("while");
+        }
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());        
+    }
+
+}
+
+
 }
 	
 	

@@ -47,7 +47,7 @@ public class cpeController implements Initializable{
     private Button startButton;
 
     @FXML
-    private ProgressBar progressBar;
+    private ProgressBar cpeProgressBar;
 
     @FXML
     void clickedMenuButton(ActionEvent event) throws IOException {
@@ -56,6 +56,7 @@ public class cpeController implements Initializable{
     }
  
     int randID;
+    int basketID;
     
     public int getRandomID() {
     	return randID;
@@ -64,16 +65,23 @@ public class cpeController implements Initializable{
     public void setRandomID(int randomID) {
     	randID = randomID;
     }
+      
     
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
+		cpeProgressBar.setProgress(0.6);
+		
+		
+		
+		
+		
 		SQLite base = new SQLite();
 		Random rand = new Random();
-		setRandomID(rand.nextInt(base.baseSize())+1);
-		toTranslate.setText("asdasdasda");
-		System.out.println(toTranslate.getText());
+		
+		setRandomID(rand.nextInt(base.baseSize()));
+		toTranslate.setText(base.getWordA(getRandomID()));
 		
 		startButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override

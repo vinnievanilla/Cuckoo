@@ -71,6 +71,8 @@ public class cepController implements Initializable{
 		
 		SQLite base = new SQLite();
 		Random rand = new Random();
+		setRandomID(rand.nextInt(base.baseSize()));
+		toTranslate.setText(base.getWordB(getRandomID()));
 				
 		startButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override

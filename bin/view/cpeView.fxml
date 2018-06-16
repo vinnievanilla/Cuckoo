@@ -39,7 +39,7 @@
                   <Font size="18.0" />
                </font></TextArea>
             <Button fx:id="startButton" defaultButton="true" layoutX="21.0" layoutY="81.0" mnemonicParsing="false" prefHeight="99.0" prefWidth="120.0" text="Next" />
-            <ProgressBar fx:id="progressBar" layoutX="28.0" layoutY="315.0" prefHeight="36.0" prefWidth="555.0" progress="0.0" />
+            <ProgressBar fx:id="cpeProgressBar" layoutX="28.0" layoutY="315.0" prefHeight="36.0" prefWidth="555.0" progress="0.0" />
             <Label layoutX="388.0" layoutY="64.0" prefHeight="17.0" prefWidth="172.0" text="Your answer:" />
          </children>
       </Pane>
