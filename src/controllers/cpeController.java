@@ -74,9 +74,13 @@ public class cpeController implements Initializable{
 		Progress pBar = new Progress(currentUser);
 		cpeProgressBar.setProgress(pBar.getProgress());
 		
+		while (base.baseSize(currentBasket) == 0) {
+			currentBasket = base.changeBasket(currentBasket);
+		}
 		randID = base.getRandomID(currentBasket);
 		toTranslate.setText(base.getWordA(randID));
 					
+		
 		startButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
