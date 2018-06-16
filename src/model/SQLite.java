@@ -352,18 +352,16 @@ public void getBasketStatus(String bName, String usr){
 
 }
 
-public void setTotalCorrect(String usr, int total) {
+public void setTotalCorrect(String user) {
 
-	String user = usr;
-	int totalCorrect = total;
+	int totalCorrect = getTotalCorrect(user)+1;
 	
 	
-		String sql = "UPDATE user_table SET TOTALCORRECT =" + totalCorrect + " WHERE USERID ='" + user + "' ";
+	String sql = "UPDATE user_table SET TOTALCORRECT =" + totalCorrect + " WHERE USER ='" + user + "' ";
 
 	try (Connection conn = this.connect();
 
 			Statement stmt = conn.createStatement();
-
 			ResultSet rs = stmt.executeQuery(sql)) {
 
 	} catch (SQLException e) {
@@ -374,9 +372,69 @@ public void setTotalCorrect(String usr, int total) {
 
 }
 
+	public int getTotalCorrect(String usr) {
 
+		String user = usr;
+		int totalCorrect = 0;
 
+		String sql = "SELECT totalCorrect FROM user_table WHERE USER = '" + user + "' ";
 
+		try (Connection conn = this.connect();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql)) {
+
+			// loop through the result set
+			while (rs.next()) {
+				totalCorrect = rs.getInt("totalCorrect");
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+
+		return totalCorrect;
+	}
+
+	public void setTotalAttempt(String user) {
+
+		int totalAttempt = getTotalAttempt(user)+1;
+		
+		String sql = "UPDATE user_table SET TOTALATTEMPT =" + totalAttempt + " WHERE USER ='" + user + "' ";
+
+		try (Connection conn = this.connect();
+
+				Statement stmt = conn.createStatement();
+
+				ResultSet rs = stmt.executeQuery(sql)) {
+
+		} catch (SQLException e) {
+
+			System.out.println(e.getMessage());
+
+		}
+
+	}
+
+	public int getTotalAttempt(String usr) {
+
+		String user = usr;
+		int totalAttempt = 0;
+
+		String sql = "SELECT totalAttempt FROM user_table WHERE USER = '" + user + "' ";
+
+		try (Connection conn = this.connect();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql)) {
+
+			// loop through the result set
+			while (rs.next()) {
+				totalAttempt = rs.getInt("totalAttempt");
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+
+		return totalAttempt;
+	}
 
 
 }

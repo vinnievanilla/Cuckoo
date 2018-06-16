@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import model.Progress;
 
 public class Main extends Application {
 
@@ -30,10 +31,20 @@ public class Main extends Application {
 		
 		//Połączenie z bazą - do testowania
 //		SQLite get = new SQLite(); 
-
+//		get.setTotalCorrect("admin", 167);
+//		System.out.println(get.getTotalCorrect("admin"));
 		
-//		System.out.println(get.baseSize());
+//		System.out.println(get.getTotalCorrect("admin"));
+//		System.out.println(get.getTotalAttempt("admin"));
+//		
+//		Progress test = new Progress();
+//		test.setProgress("admin");
+//		System.out.println(test.getProgress());
+		
+		
+		//System.out.println(get.baseSize()); 
 		//get.connect("jdbc:sqlite:src/resources/db/main.db");
 		
+				
 	}
 }

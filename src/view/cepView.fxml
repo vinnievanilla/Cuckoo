@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
@@ -26,21 +27,23 @@
             </Label>
             <Button fx:id="menuButton" defaultButton="true" layoutX="21.0" layoutY="420.0" mnemonicParsing="false" onAction="#clickedMenuButton" prefHeight="29.0" prefWidth="112.0" text="Main menu" />
             <Button fx:id="checkButton" defaultButton="true" layoutX="22.0" layoutY="195.0" mnemonicParsing="false" prefHeight="96.0" prefWidth="119.0" text="Check" />
-            <TextArea fx:id="translated" layoutX="386.0" layoutY="81.0" prefHeight="133.0" prefWidth="200.0">
-               <font>
-                  <Font size="35.0" />
-               </font></TextArea>
-            <TextArea fx:id="toTranslate" editable="false" layoutX="155.0" layoutY="81.0" opacity="0.78" prefHeight="211.0" prefWidth="200.0" styleClass="text-area" stylesheets="@style.css">
-               <font>
-                  <Font size="35.0" />
-               </font></TextArea>
             <TextArea fx:id="resoult" editable="false" layoutX="386.0" layoutY="222.0" prefHeight="71.0" prefWidth="200.0" stylesheets="@style.css" wrapText="true">
                <font>
                   <Font size="18.0" />
                </font></TextArea>
             <Button fx:id="startButton" defaultButton="true" layoutX="21.0" layoutY="81.0" mnemonicParsing="false" prefHeight="99.0" prefWidth="120.0" text="Next" />
-            <ProgressBar fx:id="progressBar" layoutX="28.0" layoutY="315.0" prefHeight="36.0" prefWidth="555.0" progress="0.0" />
+            <ProgressBar fx:id="cepProgressBar" layoutX="28.0" layoutY="315.0" prefHeight="36.0" prefWidth="555.0" progress="0.0" />
             <Label layoutX="388.0" layoutY="64.0" prefHeight="17.0" prefWidth="172.0" text="Your answer:" />
+            <TextField fx:id="toTranslate" alignment="CENTER" editable="false" layoutX="156.0" layoutY="81.0" prefHeight="210.0" prefWidth="213.0">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="translated" alignment="CENTER" layoutX="386.0" layoutY="81.0" prefHeight="132.0" prefWidth="199.0">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </TextField>
          </children>
       </Pane>
    </left>

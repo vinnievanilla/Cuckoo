@@ -12,7 +12,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import model.Progress;
 import model.SQLite;
 
 public class cpeController implements Initializable{
@@ -32,10 +34,10 @@ public class cpeController implements Initializable{
     private Button clearButton;
 
     @FXML
-    private TextArea translated;
+    private TextField translated;
 
     @FXML
-    private TextArea toTranslate;
+    private TextField toTranslate;
 
     @FXML
     private TextArea correct;
@@ -56,57 +58,63 @@ public class cpeController implements Initializable{
     }
  
     int randID;
-    int basketID;
+    int currentBasket;
+    String currentUser;
     
-    public int getRandomID() {
-    	return randID;
-    }
-    
-    public void setRandomID(int randomID) {
-    	randID = randomID;
-    }
-      
-    
+        
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-		cpeProgressBar.setProgress(0.6);
-		
-		
-		
-		
-		
 		SQLite base = new SQLite();
-		Random rand = new Random();
+		randID = 0;
+		currentBasket = 1;
+		currentUser = "admin";
 		
-		setRandomID(rand.nextInt(base.baseSize()));
-		toTranslate.setText(base.getWordA(getRandomID()));
+		Progress pBar = new Progress(currentUser);
+		cpeProgressBar.setProgress(pBar.getProgress());
 		
+		randID = base.getRandomID(currentBasket);
+		toTranslate.setText(base.getWordA(randID));
+					
 		startButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
-			public void handle(ActionEvent arg0) {	
-				    setRandomID(rand.nextInt(base.baseSize()));
-					toTranslate.setText(base.getWordA(getRandomID()));
-					translated.clear();
-//					correct.clear();
-					resoult.clear();
+			public void handle(ActionEvent arg0) {
+
+			while (base.baseSize(currentBasket) == 0) {
+				currentBasket = base.changeBasket(currentBasket);
 			}
-		});
+
+			randID = base.getRandomID(currentBasket);
+			toTranslate.setText(base.getWordA(randID));	
+			translated.clear();
+//			correct.clear();
+			resoult.clear();
+			}});
 		
 		checkButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				
+				
 				try {
 //					correct.setText(base.getWordB(getRandomID()));
-					if (base.getWordB(getRandomID()).equals(translated.getText().toLowerCase().replaceAll("\\s",""))) {
+					if (base.getWordB(randID).equals(translated.getText().toLowerCase().replaceAll("\\s",""))) {
 						resoult.setText("Correct !");
 						resoult.setStyle("-fx-background-color: #008000; -fx-text-fill: #008000;-fx-font-size: 16;");
+						base.setBasket(randID, true);
+						base.setTotalCorrect(currentUser);
+						base.setTotalAttempt(currentUser);
+						
 					} else {
-						resoult.setText("Not this time. Correct answer is: " + base.getWordB(getRandomID()));
+						resoult.setText("Not this time. Correct answer is: " + base.getWordB(randID));
 						resoult.setStyle("-fx-background-color: #FF0000; -fx-text-fill: #FF0000; -fx-text-alignment: center; -fx-text-origin: baseline; -fx-font-size: 16; ");
-				}
+						base.setBasket(randID, false);
+						base.setTotalAttempt(currentUser);
+					}
+				pBar.setProgress(currentUser);
+				cpeProgressBar.setProgress(pBar.getProgress());
+					
 				}
 				catch (Exception e) {
 //					System.out.println(e);
@@ -116,4 +124,6 @@ public class cpeController implements Initializable{
 		});		
 	}	
 
+	
+	
 }
