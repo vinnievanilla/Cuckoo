@@ -11,13 +11,13 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="rootPane" maxHeight="480.0" maxWidth="640.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.mainController">
+<BorderPane fx:id="rootPane" maxHeight="480.0" maxWidth="640.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.mainController">
    <center>
       <Pane prefHeight="200.0" prefWidth="640.0" scaleShape="false" BorderPane.alignment="CENTER">
          <children>
             <PasswordField fx:id="password" layoutX="32.0" layoutY="210.0" promptText="Password" />
             <TextField fx:id="login" layoutX="32.0" layoutY="175.0" promptText="Login" />
-            <Label layoutX="320.0" layoutY="158.0" opacity="0.78" text="Welcome to Cuckoo!">
+            <Label fx:id="welcomeLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="224.0" layoutY="158.0" opacity="0.78" prefHeight="34.0" prefWidth="396.0" text="Welcome to Cuckoo!" textAlignment="CENTER">
                <font>
                   <Font size="23.0" />
                </font>

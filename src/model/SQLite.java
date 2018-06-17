@@ -12,7 +12,7 @@ public class SQLite {
 
 	
 	private int basketAmount = 5;
-
+	private static String currentUser = null;
 
 	// ****************************************************
 	// set number of baskets
@@ -300,7 +300,8 @@ public class SQLite {
 		String sql = "SELECT userID FROM user_table WHERE USER = '" + login +
 				                               "' AND PASSWORD = '" + password + "' ";
 		if (getUniqueRecord(sql) != null) {
-			Alert.display("Informacja", "Witaj " + login + "!");
+//			Alert.display("Informacja", "Witaj " + login + "!");
+			currentUser = login;
 			return true;
 		}
 		else
@@ -311,17 +312,18 @@ public class SQLite {
 	// ****************************************************
 	// Create an account
 	// ***************************************************
-	public static void createAccount(String login, String password) {
+	public static boolean createAccount(String login, String password) {
 		String sql1 = "SELECT userID FROM user_table WHERE USER = '" + login + "' ";
 	
 		if (getUniqueRecord(sql1) != null) {
-			Alert.display("Informacja", "U¿ytkownik o takim loginie ju¿ istnieje!");
-			return;
+//			Alert.display("Informacja", "Login istnieje!");
+			return false;
 		}
-
+		
 		String sql2 = "INSERT INTO user_table (user, password) VALUES('" + login + "', '" + password + "')";
 		updateRecord(sql2);
-		Alert.display("Informacja", "U¿ytkownik " + login + " zosta³ zarejestrowany!");
+//		Alert.display("Informacja", "Uï¿½ytkownik " + login + " zostaï¿½ zarejestrowany!");
+		return true;
 	}
 	
 	public static boolean validateLogPass(String login, String password) {
@@ -333,6 +335,17 @@ public class SQLite {
 		return true;
 	}
 
+	public String getCurrentUser() {
+		return currentUser;
+	}
+
+	public void setCurrentUser(String cU) {
+		currentUser = cU;
+	}
+
+	
+	
+	
 }
 	
 	

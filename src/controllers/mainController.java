@@ -8,10 +8,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import model.Alert;
 import model.SQLite;
 
 
@@ -33,6 +33,9 @@ public class mainController implements Initializable{
     private TextField login;
     
     @FXML
+    private Label welcomeLabel;
+    
+    @FXML
     private void clickedGoButton(Event event) throws IOException {
     	boolean a;
     	a = SQLite.checkUser(login.getText(), password.getText());
@@ -40,7 +43,7 @@ public class mainController implements Initializable{
     		BorderPane pane = FXMLLoader.load(getClass().getResource("/view/menuView.fxml"));
         	rootPane.getChildren().setAll(pane);
     	}else if(a==false) {
-    		Alert.display("Informacja", "Musisz najpierw siê zarejestrowaæ !");
+    		welcomeLabel.setText("You have to sign in first!");
     	}	
     };
     

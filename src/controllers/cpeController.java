@@ -69,7 +69,7 @@ public class cpeController implements Initializable{
 		SQLite base = new SQLite();
 		randID = 0;
 		currentBasket = 1;
-		currentUser = "admin";
+		currentUser = base.getCurrentUser();
 		
 		Progress pBar = new Progress(currentUser);
 		cpeProgressBar.setProgress(pBar.getProgress());
@@ -85,6 +85,8 @@ public class cpeController implements Initializable{
 			@Override
 			public void handle(ActionEvent arg0) {
 
+			resoult.setStyle("-fx-font-size: 16;");
+				
 			while (base.baseSize(currentBasket) == 0) {
 				currentBasket = base.changeBasket(currentBasket);
 			}
