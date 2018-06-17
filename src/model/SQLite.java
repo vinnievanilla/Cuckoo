@@ -56,7 +56,7 @@ public class SQLite {
 	// ****************************************************
 	// connect to database with fixed url address
 	// ****************************************************
-    public Connection connect() {
+    public static Connection connect() {
     	return connect("jdbc:sqlite:src/resources/db/main.db");
     }
 
@@ -64,7 +64,7 @@ public class SQLite {
 	// ****************************************************
 	// connect to database with given url address
 	// ****************************************************
-    public Connection connect(String dbName) {
+    public static Connection connect(String dbName) {
         // SQLite connection string
         String url = dbName;
         Connection conn = null;
@@ -82,10 +82,10 @@ public class SQLite {
 	// ****************************************************
 	// function returning record for given sql command
 	// ****************************************************
-	public String getUniqueRecord(String sql) {
+	public static String getUniqueRecord(String sql) {
 		String SQLrecord = null;
 
-		try (Connection conn = this.connect();
+		try (Connection conn = connect();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql)) {
 			SQLrecord = rs.getString(1);
@@ -99,8 +99,8 @@ public class SQLite {
 	// ****************************************************
 	// update record of given sql in db
 	// ****************************************************
-	public void updateRecord(String sql) {
-		try (Connection conn = this.connect();
+	public static void updateRecord(String sql) {
+		try (Connection conn = connect();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql)) {
 		} catch (SQLException e) {
@@ -294,9 +294,17 @@ public class SQLite {
 	// ***************************************************
 
 	public static boolean checkUser(String login, String password) {
-		// podajemy jako parametry login i password, jeï¿½eli znadjdziemy takiego
-		// uï¿½ytkownika w bazie zwracamy true, jak nie to false
-		return true;
+		if (validateLogPass(login, password) == false)
+			return false;
+
+		String sql = "SELECT userID FROM user_table WHERE USER = '" + login +
+				                               "' AND PASSWORD = '" + password + "' ";
+		if (getUniqueRecord(sql) != null) {
+			Alert.display("Informacja", "Witaj " + login + "!");
+			return true;
+		}
+		else
+			return false;
 	}
 
 	
@@ -304,11 +312,25 @@ public class SQLite {
 	// Create an account
 	// ***************************************************
 	public static void createAccount(String login, String password) {
-		// podajï¿½ login i password, naleï¿½y dodaï¿½ uï¿½ytkownika do nowej tabeli
-		// user. Jak
-		// bï¿½dzie ok to informacje, ï¿½e konto zostaï¿½o utworzone, jak nie to info,
-		// ï¿½e juï¿½
-		// jest taki login.
+		String sql1 = "SELECT userID FROM user_table WHERE USER = '" + login + "' ";
+	
+		if (getUniqueRecord(sql1) != null) {
+			Alert.display("Informacja", "U¿ytkownik o takim loginie ju¿ istnieje!");
+			return;
+		}
+
+		String sql2 = "INSERT INTO user_table (user, password) VALUES('" + login + "', '" + password + "')";
+		updateRecord(sql2);
+		Alert.display("Informacja", "U¿ytkownik " + login + " zosta³ zarejestrowany!");
+	}
+	
+	public static boolean validateLogPass(String login, String password) {
+		if (login == null  || login == ""      ||
+			password == "" || password == null ||
+			login == " "   || password == " " ) {
+			return false;
+		}
+		return true;
 	}
 
 }

@@ -7,6 +7,7 @@ import org.junit.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -155,7 +156,7 @@ public class SQLiteTest {
 		int expectedBasket;
 		int newBasket;
 		
-		for (int i: id) {
+		for (int i : id) {
 			oldBasket = testObject.getBasket(i);
 			
 			if (oldBasket == 1)
@@ -265,6 +266,32 @@ public class SQLiteTest {
 			newAttempt = testObject.getTotalAttempt("admin");
 			
 			Assert.assertEquals(oldAttempt + 1, newAttempt);
+		}
+	}
+
+	@Test
+	public void validAddCheckUserTest() {
+		String[] userId     = { "admin1",  "ania", "katarzyna"};
+		String[] passwordId = {  "kupa", "trolo",     "siala"};
+		boolean result;
+		
+		for (int i = 0; i < userId.length; i++)
+		{
+			SQLite.createAccount(userId[i], passwordId[i]);
+			result = SQLite.checkUser(userId[i], passwordId[i]);
+			Assert.assertEquals(true, result);
+		}
+	}
+	
+	@Test
+	public void invalidCheckUserTest() {
+		String[] userId     = { "stasia",     " ", "admin",  "admin"};
+		String[] passwordId = {   "kupa", "trolo",     " ", "admin1"};
+		boolean result;
+		
+		for (int i = 0; i < userId.length; i++) {
+			result = SQLite.checkUser(userId[i], passwordId[i]);
+			Assert.assertEquals(false, result);
 		}
 	}
 	
