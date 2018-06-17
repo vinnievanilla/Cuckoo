@@ -1,5 +1,9 @@
 package model;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -343,8 +347,31 @@ public class SQLite {
 		currentUser = cU;
 	}
 
-	
-	
+	public void addNewTable(String csvFile) {
+		BufferedReader buffer = null;
+		String line = "";
+
+		try {
+			buffer = new BufferedReader(new FileReader(csvFile));
+			while ((line = buffer.readLine()) != null) {
+				String[] table = line.split(";");
+				String sql2 = "INSERT INTO main_table (PL, ENG) VALUES('" + table[0] + "', '" + table[1] + "')";
+				updateRecord(sql2);
+			}
+		} catch (FileNotFoundException e) {
+			System.out.println(e.getMessage());
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			if (buffer != null) {
+				try {
+					buffer.close();
+				} catch (IOException e) {
+					System.out.println(e.getMessage());
+				}
+			}
+		}
+	}
 	
 }
 	

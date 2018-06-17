@@ -36,6 +36,9 @@ public class menuController implements Initializable{
     @FXML
     private Button signOutButton;
     
+    @FXML
+    private Button uploadButton;
+    
     SQLite db = new SQLite();
       
 	@Override
@@ -61,7 +64,12 @@ public class menuController implements Initializable{
     	db.setCurrentUser(null);
     };
 	
-	
+    @FXML
+    private void clickedUploadButton(Event event) throws IOException {
+    	BorderPane pane = FXMLLoader.load(getClass().getResource("/view/recordUploadView.fxml"));
+    	menuPane.getChildren().setAll(pane);
+    	
+    };
 	
     private void openNewWindow(String pathToFxmlFile ){
     	try {

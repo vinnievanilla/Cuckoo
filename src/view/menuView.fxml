@@ -25,25 +25,26 @@
                </font>
             </Label>
             <Label layoutX="399.0" layoutY="451.0" prefHeight="17.0" prefWidth="31.0" text="2018" />
-            <Button id="go" fx:id="peButton" defaultButton="true" layoutX="14.0" layoutY="242.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="186.0" text="Polish to English" />
+            <Button id="go" fx:id="peButton" defaultButton="true" layoutX="14.0" layoutY="191.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="186.0" text="Polish to English" />
      
             <Label fx:id="welcomeLabel" layoutX="49.0" layoutY="144.0" opacity="0.8" prefHeight="28.0" prefWidth="121.0">
                <font>
                   <Font size="19.0" />
                </font></Label>
-            <Label layoutX="13.0" layoutY="208.0" opacity="0.78" text="How do we practice today?">
+            <Label layoutX="11.0" layoutY="160.0" opacity="0.78" text="How do we practice today?">
                <font>
                   <Font size="16.0" />
                </font></Label>
-            <Button fx:id="epButton" defaultButton="true" layoutX="14.0" layoutY="277.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="185.0" text="English to Polish" />
-            <Button fx:id="cpeButton" defaultButton="true" layoutX="15.0" layoutY="314.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="185.0" text="Challange: Polish to English" />
-            <Button fx:id="cepButton" defaultButton="true" layoutX="15.0" layoutY="351.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="185.0" text="Challange: English to Polish" />
+            <Button fx:id="epButton" defaultButton="true" layoutX="15.0" layoutY="228.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="185.0" text="English to Polish" />
+            <Button fx:id="cpeButton" defaultButton="true" layoutX="14.0" layoutY="265.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="185.0" text="Challange: Polish to English" />
+            <Button fx:id="cepButton" defaultButton="true" layoutX="14.0" layoutY="302.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="185.0" text="Challange: English to Polish" />
             <Label fx:id="infoLabel" alignment="CENTER" layoutX="235.0" layoutY="27.0" opacity="0.79" prefHeight="130.0" prefWidth="382.0">
                <font>
                   <Font size="23.0" />
                </font>
             </Label>
             <Button fx:id="signOutButton" defaultButton="true" layoutX="15.0" layoutY="430.0" mnemonicParsing="false" onAction="#clickedSignOut" prefHeight="25.0" prefWidth="185.0" text="Sign out" />
+            <Button fx:id="uploadButton" defaultButton="true" layoutX="15.0" layoutY="369.0" mnemonicParsing="false" onAction="#clickedUploadButton" prefHeight="25.0" prefWidth="181.0" text="Upload your records" />
          </children>
       </Pane>
    </center>
